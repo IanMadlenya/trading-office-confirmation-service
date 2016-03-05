@@ -1,44 +1,39 @@
 language: Java
-
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 before_install:
-  - pip install --user codecov
-
+- pip install --user codecov
 after_success:
-  - codecov
-  - ./gradlew sonarqube
-
-# coverity scan
+- codecov
+- ./gradlew sonarqube
 env:
   global:
-    - secure: "A+JodfRzulrwez5TVSm2k1SQPxsis68gM22JN4nqjm4RgekfHnfWe5OoLYhdFuhgyzkUE7AnmkhcZCtYpl4/hCtRs4pZ+Hum4vtSh99dLaMOW3CpUzaBpWPtCcuEN2DP3v8hMAkbqiaSEYxfKM94CH3Ct+YH8xuaMvcYsuBRaFz2KSJXnfor+111VGGjoDSRFqMd6cpq4m0U22vUtyCBVeu8+HPRn3ySyafL7hNCBNyZgkp1KZZPD6RgzHPbjVKA9lBO27CnSBsp3uWHv5Zfee80JFsjIECRhR5djYI/mq3xtWTsdnIOTEjiT8ahwpxJBrAscapt8iTmZolaYLoe97JLFcU4qQLQGsdg6SRcCbpiTFyu7oMqcApxdb+6er9I5B4XVN329xpTZLYsMFZAzeqhZswYxAJiRPIzS79y/WFBNMwlHPHYZauAMZTPiWK/+8sr3hyrtSyuzMms3puBAAvjfDKWI4QOIoVMUxp+O3gTHi29/UpegFwgEOMYXd2CspQROx76zq0G5xGeGK5FSRnvaE27VKPKlBdyE9DT8AZxy1sP9pigHCt4E/dV+4lM5awCCCqCVP5//yFrCFiTb0vINkZjYOhuaqckkAeKRa8/yZnGeXbZ4ENL+ZqVL/PnOdqd4jCS3uTSuW2s4N5AC7bXtCuHtiEWNj/siEzndE0="
-
+  - secure: A+JodfRzulrwez5TVSm2k1SQPxsis68gM22JN4nqjm4RgekfHnfWe5OoLYhdFuhgyzkUE7AnmkhcZCtYpl4/hCtRs4pZ+Hum4vtSh99dLaMOW3CpUzaBpWPtCcuEN2DP3v8hMAkbqiaSEYxfKM94CH3Ct+YH8xuaMvcYsuBRaFz2KSJXnfor+111VGGjoDSRFqMd6cpq4m0U22vUtyCBVeu8+HPRn3ySyafL7hNCBNyZgkp1KZZPD6RgzHPbjVKA9lBO27CnSBsp3uWHv5Zfee80JFsjIECRhR5djYI/mq3xtWTsdnIOTEjiT8ahwpxJBrAscapt8iTmZolaYLoe97JLFcU4qQLQGsdg6SRcCbpiTFyu7oMqcApxdb+6er9I5B4XVN329xpTZLYsMFZAzeqhZswYxAJiRPIzS79y/WFBNMwlHPHYZauAMZTPiWK/+8sr3hyrtSyuzMms3puBAAvjfDKWI4QOIoVMUxp+O3gTHi29/UpegFwgEOMYXd2CspQROx76zq0G5xGeGK5FSRnvaE27VKPKlBdyE9DT8AZxy1sP9pigHCt4E/dV+4lM5awCCCqCVP5//yFrCFiTb0vINkZjYOhuaqckkAeKRa8/yZnGeXbZ4ENL+ZqVL/PnOdqd4jCS3uTSuW2s4N5AC7bXtCuHtiEWNj/siEzndE0=
 addons:
   coverity_scan:
-
     project:
       name: spolnik/trading-office
       version: 1.0
       description: Trading Office
-
     notification_email: jacek.spolnik@gmail.com
-
-    build_command_prepend: "./gradlew clean"
-
-    build_command: "./gradlew compileJava"
-
+    build_command_prepend: ./gradlew clean
+    build_command: ./gradlew compileJava
     branch_pattern: coverity_scan
-
 branches:
   only:
-    - master
-    - /^heroku-.*$/
-    - coverity_scan
+  - master
+  - /^heroku-.*$/
+  - coverity_scan
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+deploy:
+  provider: heroku
+  api_key:
+    secure: PdIzM4FjF1gAZdR3whwxRutzaAMrdWG7eNnlpDDFpyYVKJbxNdtC17Tvv54TSz7yVC4HBZUCdNUX5in7nz6+L2q5bDXMjmtjVclOUfFUq2QyrfVNUA2zbOJ4gI4IcxcG8OLGtVt9AKKjGQiqI4gVtytpNGtDNvDrQs0KY0F4cP+mnB/iNAscmwcwtJCfdeLff41YppEk+6nLhJgnfLd7jupB2cSHhzvDMpwfGJ1qboX8T3E/GBoUSU5XeScWPVIA30wgiDSEeYHXc5wvTvpMQFoqJ6WNib8ORs4wE4wxPPj3+2afcsd/kEsoxm3vnldRs0ezx8JGzzRUC7Dvzhet6L/iVQsKBDyhGbQ11zWicZGwv+ZtSDbCZNK27rKml6xZBt3CFIUMbyleJa4RKKM8EiCm99ze2rHjnGVgp18W8YCT3eyi/z/pU53psqyi2z4gaLCEa9bmLJJslnXlP4Bpkmt8kHmF/URSa2Bp0MS0ZBlOEeVtGANhuO4s5g/O4OO8mnKrIqBY8z7aqUX4IffhBdAp7hK0hzVpUUPzfyCTfxluk0nxtB1M6LkSm+8o5vGtf8vFwHLWjWZWtoOrGQxaHWI9Bmyq6jJ8qQEyQFFESfzTOB4w8mCt09G6U+n5wUHfkw4hRHYK2Ds108/8mNzVzI2tyJwmvCfwoKcQip5PGC4=
+  app: confirmation-service
+  on:
+    repo: spolnik/trading-office-confirmation-service
