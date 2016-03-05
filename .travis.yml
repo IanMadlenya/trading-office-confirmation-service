@@ -6,24 +6,6 @@ before_install:
 after_success:
 - codecov
 - ./gradlew sonarqube
-env:
-  global:
-  - secure: A+JodfRzulrwez5TVSm2k1SQPxsis68gM22JN4nqjm4RgekfHnfWe5OoLYhdFuhgyzkUE7AnmkhcZCtYpl4/hCtRs4pZ+Hum4vtSh99dLaMOW3CpUzaBpWPtCcuEN2DP3v8hMAkbqiaSEYxfKM94CH3Ct+YH8xuaMvcYsuBRaFz2KSJXnfor+111VGGjoDSRFqMd6cpq4m0U22vUtyCBVeu8+HPRn3ySyafL7hNCBNyZgkp1KZZPD6RgzHPbjVKA9lBO27CnSBsp3uWHv5Zfee80JFsjIECRhR5djYI/mq3xtWTsdnIOTEjiT8ahwpxJBrAscapt8iTmZolaYLoe97JLFcU4qQLQGsdg6SRcCbpiTFyu7oMqcApxdb+6er9I5B4XVN329xpTZLYsMFZAzeqhZswYxAJiRPIzS79y/WFBNMwlHPHYZauAMZTPiWK/+8sr3hyrtSyuzMms3puBAAvjfDKWI4QOIoVMUxp+O3gTHi29/UpegFwgEOMYXd2CspQROx76zq0G5xGeGK5FSRnvaE27VKPKlBdyE9DT8AZxy1sP9pigHCt4E/dV+4lM5awCCCqCVP5//yFrCFiTb0vINkZjYOhuaqckkAeKRa8/yZnGeXbZ4ENL+ZqVL/PnOdqd4jCS3uTSuW2s4N5AC7bXtCuHtiEWNj/siEzndE0=
-addons:
-  coverity_scan:
-    project:
-      name: spolnik/trading-office
-      version: 1.0
-      description: Trading Office
-    notification_email: jacek.spolnik@gmail.com
-    build_command_prepend: ./gradlew clean
-    build_command: ./gradlew compileJava
-    branch_pattern: coverity_scan
-branches:
-  only:
-  - master
-  - /^heroku-.*$/
-  - coverity_scan
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -33,7 +15,7 @@ cache:
 deploy:
   provider: heroku
   api_key:
-    secure: PdIzM4FjF1gAZdR3whwxRutzaAMrdWG7eNnlpDDFpyYVKJbxNdtC17Tvv54TSz7yVC4HBZUCdNUX5in7nz6+L2q5bDXMjmtjVclOUfFUq2QyrfVNUA2zbOJ4gI4IcxcG8OLGtVt9AKKjGQiqI4gVtytpNGtDNvDrQs0KY0F4cP+mnB/iNAscmwcwtJCfdeLff41YppEk+6nLhJgnfLd7jupB2cSHhzvDMpwfGJ1qboX8T3E/GBoUSU5XeScWPVIA30wgiDSEeYHXc5wvTvpMQFoqJ6WNib8ORs4wE4wxPPj3+2afcsd/kEsoxm3vnldRs0ezx8JGzzRUC7Dvzhet6L/iVQsKBDyhGbQ11zWicZGwv+ZtSDbCZNK27rKml6xZBt3CFIUMbyleJa4RKKM8EiCm99ze2rHjnGVgp18W8YCT3eyi/z/pU53psqyi2z4gaLCEa9bmLJJslnXlP4Bpkmt8kHmF/URSa2Bp0MS0ZBlOEeVtGANhuO4s5g/O4OO8mnKrIqBY8z7aqUX4IffhBdAp7hK0hzVpUUPzfyCTfxluk0nxtB1M6LkSm+8o5vGtf8vFwHLWjWZWtoOrGQxaHWI9Bmyq6jJ8qQEyQFFESfzTOB4w8mCt09G6U+n5wUHfkw4hRHYK2Ds108/8mNzVzI2tyJwmvCfwoKcQip5PGC4=
-  app: confirmation-service
+    secure: ANJdNTEseWB/zuNVO38DHwa+KWyjudZI7Ih1eK5wMvMlDPQ4xQOisqXy4IPRT34l7+T2KEWYVYqirPvhC10gxV8WxyVnY2Rxna5ArI4/eytSjuI9pALnNYX9z4wEpZpKnzpUedY3gkBMtYhbYsMrgHJ/ZFLA2cJBOHM4kQSwEet3x2x+5sap2JxC6Svcmujw3V286h4xVO2NNViyIhOgIuc/As5/e8vP1KKHZGQjNJBgPOyX39GFYTlCZoA7Bj7OlTKSgrwizyjh46skQ/HgIb4q/P38Vr7SjkTxDXo+/HeRQ1wvJ9N+t6mQ1OfA5YkaV+/r/0oXsGsz8ot8RNiIf9k1hptt82aEGc4lOaj91M9zOOzGbp+ZDmuiTSHiHBgEjXm0oATUgFBQF0MI51GhOwnEcw8c8mvpeyZpj2y/LWXsEjMrEiW2N3nnSlM5NopoL7wOGSgcZcr8zW8zpOWYgSuHgw/sK5cfpEu3LiA14wYV0BE0LePr0Y7aYynyZREYdzKcLXIJYo7yE+0CG7CWw6SnOuDebD6g/1bTfIgZVlg2KweelAWcs0zMZi4mznDbxvgVvV/o6wRlEDClvYNPM1VU9OcCfiQOyZ1tCHlMB5PYTTlNYarDniS5xoD9v3SkgHBjveXCKVKmV71i1JpZIe9KbJ6k1ZvFyFIXTLdOZLY=
+  app: confirmation-service-staging
   on:
     repo: spolnik/trading-office-confirmation-service
