@@ -8,11 +8,10 @@ eureka:
 ---
 spring:
   profiles: heroku
+  data:
+      mongodb:
+        uri: ${MONGOLAB_URI}
 eureka:
   instance:
     hostname: ${DOMAIN_NAME}
     nonSecurePort: 80
-spring:
-  data:
-    mongodb:
-      uri: ${MONGOLAB_URI}
