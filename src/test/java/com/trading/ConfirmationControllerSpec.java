@@ -3,10 +3,11 @@ package com.trading;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.URI;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class ConfirmationControllerSpec {
 
@@ -19,14 +20,20 @@ public class ConfirmationControllerSpec {
     @Before
     public void setUp() throws Exception {
         confirmationRepository = mock(ConfirmationRepository.class);
-        confirmationController = new ConfirmationController(confirmationRepository);
-    }
 
+        ResolveUri resolveUri = mock(ResolveUri.class);
+        when(resolveUri.path(any())).thenReturn(resolveUri);
+        when(resolveUri.expandUri(any())).thenReturn(URI.create(DUMMY_ID));
+
+        confirmationController = new ConfirmationController(confirmationRepository, resolveUri);
+    }
 
     @Test
     public void pass_confirmation_to_confirmation_repository() throws Exception {
 
         Confirmation confirmation = mock(Confirmation.class);
+        when(confirmation.getAllocationId()).thenReturn(DUMMY_ID);
+        when(confirmationRepository.save(any(Confirmation.class))).thenReturn(confirmation);
 
         confirmationController.addConfirmation(confirmation);
 
@@ -38,14 +45,14 @@ public class ConfirmationControllerSpec {
 
         confirmationController.getConfirmation(DUMMY_ID);
 
-        verify(confirmationRepository).queryById(DUMMY_ID);
+        verify(confirmationRepository).findOne(DUMMY_ID);
     }
 
     @Test
     public void returns_confirmation_for_given_id() throws Exception {
 
         Confirmation confirmation = mock(Confirmation.class);
-        when(confirmationRepository.queryById(DUMMY_ID)).thenReturn(confirmation);
+        when(confirmationRepository.findOne(DUMMY_ID)).thenReturn(confirmation);
 
         Confirmation queriedConfirmation = confirmationController.getConfirmation(DUMMY_ID);
 

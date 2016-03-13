@@ -1,6 +1,7 @@
 package com.trading;
 
 import com.google.common.base.MoreObjects;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,7 +13,10 @@ public class Confirmation implements Serializable {
 
     private byte[] content;
     private String confirmationType;
+
+    @Id
     private String allocationId;
+
     private String securityId;
     private String tradeSide;
     private String tradeDate;

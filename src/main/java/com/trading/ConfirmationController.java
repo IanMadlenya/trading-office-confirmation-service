@@ -5,11 +5,10 @@ import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api")
@@ -18,10 +17,12 @@ class ConfirmationController {
     private static final Logger LOG = LoggerFactory.getLogger(ConfirmationController.class);
 
     private final ConfirmationRepository confirmationRepository;
+    private final ResolveUri resolveUri;
 
     @Autowired
-    public ConfirmationController(ConfirmationRepository confirmationRepository) {
+    public ConfirmationController(ConfirmationRepository confirmationRepository, ResolveUri resolveUri) {
         this.confirmationRepository = confirmationRepository;
+        this.resolveUri = resolveUri;
     }
 
     @ApiOperation(value = "getConfirmation", nickname = "getConfirmation")
@@ -30,7 +31,7 @@ class ConfirmationController {
             @ApiParam(name = "id", required = true, value = "Confirmation id")
             @PathVariable String id
     ) {
-        return confirmationRepository.queryById(id);
+        return confirmationRepository.findOne(id);
     }
 
     @ApiOperation(value = "addConfirmation", nickname = "addOperation")
@@ -39,13 +40,10 @@ class ConfirmationController {
             @ApiParam(name = "confirmation", required = true)
             @RequestBody Confirmation confirmation) {
 
-        try {
-            confirmationRepository.save(confirmation);
-        } catch (IOException e) {
-            LOG.error(e.getMessage(), e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        Confirmation saved = confirmationRepository.save(confirmation);
+        URI uri = resolveUri.path("/{id}").expandUri(saved.getAllocationId());
 
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        LOG.info("Created: " + uri.toString());
+        return ResponseEntity.created(uri).body(saved);
     }
 }

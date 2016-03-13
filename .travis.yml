@@ -19,3 +19,5 @@ deploy:
   app: confirmation-service-staging
   on:
     repo: spolnik/trading-office-confirmation-service
+services:
+- mongodb

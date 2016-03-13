@@ -1,8 +1,6 @@
 package com.trading;
 
-import java.io.IOException;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-interface ConfirmationRepository {
-    Confirmation queryById(String id);
-    void save(Confirmation confirmation) throws IOException;
+interface ConfirmationRepository  extends MongoRepository<Confirmation, String> {
 }

@@ -1,8 +1,5 @@
 server:
   port: 9003
-endpoints:
-  jmx:
-    unique-names: true
 
 eureka:
   client:
@@ -15,3 +12,7 @@ eureka:
   instance:
     hostname: ${DOMAIN_NAME}
     nonSecurePort: 80
+spring:
+  data:
+    mongodb:
+      uri: ${MONGOLAB_URI}

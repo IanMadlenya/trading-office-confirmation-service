@@ -1,0 +1,6 @@
+server:
+  port: 9003
+
+eureka:
+  client:
+    enabled: false

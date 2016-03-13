@@ -22,18 +22,18 @@ public class ConfirmationServiceApplication {
     }
 
     @Bean
-    ConfirmationRepository confirmationRepository() {
-        return new FileBasedConfirmationRepository();
-    }
-
-    @Bean
-    public Docket confirmaitonApi() {
+    public Docket confirmationApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("confirmation")
                 .apiInfo(apiInfo())
                 .select()
                 .paths(regex("(/api/confirmation.*)"))
                 .build();
+    }
+
+    @Bean
+    ResolveUri uriResolver() {
+        return new ResolveUri();
     }
 
     private static ApiInfo apiInfo() {
